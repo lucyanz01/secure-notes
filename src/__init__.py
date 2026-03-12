@@ -14,4 +14,7 @@ def create_app():
     db.init_app(app)
     CORS(app)
 
+    from src.routes.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+
     return app 
