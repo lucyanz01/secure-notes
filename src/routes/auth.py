@@ -10,8 +10,8 @@ def register():
     data = request.get_json()
     if not data:
         return jsonify({"error": "empty request body"}), 400
-    email = data.get("email")
-    password = data.get("password")
+    email = data.get("email", "").strip()
+    password = data.get("password", "").strip()
     if not email or not password:
         return jsonify({"error": "missing fields"}), 400
     
