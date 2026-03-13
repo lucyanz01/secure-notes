@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import re
 import os
 import jwt
 from datetime import datetime, timedelta, timezone
@@ -25,6 +26,10 @@ def create_token(user_id):
     )
     return token
 
+def is_valid_email(email):
+        pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+        return re.match(pattern, email)
+
 @auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
@@ -34,6 +39,10 @@ def register():
     password = data.get("password", "").strip()
     if not email or not password:
         return jsonify({"error": "missing fields"}), 400
+    if not is_valid_email(email):
+        return jsonify({"error": "invalid email format"}), 400
+    if len(password) < 8:
+        return jsonify({"error": "password must be at least 8 characters"}), 400
     
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
