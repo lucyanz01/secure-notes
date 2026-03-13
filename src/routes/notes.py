@@ -73,3 +73,18 @@ def update_note(note_id):
     except:
         db.session.rollback()
         return jsonify({"error": "internal server error"}), 500
+    
+@notes_bp.route("/<int:note_id>", methods=["DELETE"])
+@token_required
+def delete_note(note_id):
+    note = Note.query.filter_by(id=note_id, user_id=request.user_id).first()
+    if not note:
+        return jsonify({"error": "note not found"}), 404
+    
+    try:
+        db.session.delete(note)
+        db.session.commit()
+        return jsonify({"message": "note deleted succesfully"}), 200
+    except:
+        db.session.rollback()
+        return jsonify({"error": "internal server error"}), 500
