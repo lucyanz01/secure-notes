@@ -51,4 +51,25 @@ def get_note(note_id):
         "created_at": note.created_at,
         "updated_at": note.updated_at
     }), 200
+
+@notes_bp.route("/<int:note_id>", methods=["PATCH"])
+@token_required
+def update_note(note_id):
+    note = Note.query.filter_by(id=note_id, user_id=request.user_id).first()
+    if not note:
+        return jsonify({"error": "note not found"}), 404
     
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "empty request body"}), 400
+    if "title" in data:
+        note.title = data.get("title").strip()
+    if "content" in data:
+        note.content = data.get("content").strip()
+
+    try: 
+        db.session.commit()
+        return jsonify({"message": "note updates succesfully"}), 200
+    except:
+        db.session.rollback()
+        return jsonify({"error": "internal server error"}), 500
