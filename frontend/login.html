@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="logo.png">   
+<link rel="icon" href="logo.png">
 <title>Secure Notes</title>
 <style>
 *{
@@ -13,13 +13,14 @@
   font-family:system-ui,-apple-system,Segoe UI,Roboto;
 }
 body{
-  height:100vh;
+  min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
   background:linear-gradient(135deg,#0d1117,#0f1a2e);
   color:white;
   position:relative;
+  padding:20px;
 }
 body::before{
   content:"";
@@ -35,13 +36,18 @@ body::before{
   display:flex;
   align-items:center;
   gap:60px;
+  width:100%;
+  max-width:780px;
+  position:relative;
+  z-index:1;
 }
-.brand{ max-width:320px; }
+.brand{ max-width:320px; flex:1; }
 .brand h1{ font-size:38px; letter-spacing:-1px; }
 .brand span{ color:#60a5fa; }
 .brand p{ margin-top:14px; color:#9aa0b3; line-height:1.5; }
 .card{
   width:340px;
+  flex-shrink:0;
   padding:36px;
   border-radius:18px;
   background:rgba(255,255,255,0.05);
@@ -63,6 +69,7 @@ input{
   color:white;
   outline:none;
   transition:.2s;
+  font-size:16px; /* evita zoom en iOS */
 }
 input::placeholder{ color:#4a5068; }
 input:focus{
@@ -80,6 +87,7 @@ button{
   font-weight:600;
   cursor:pointer;
   transition:.2s;
+  font-size:15px;
 }
 button:hover{ background:#60a5fa; }
 button:disabled{ opacity:.5; cursor:not-allowed; }
@@ -99,6 +107,13 @@ button:disabled{ opacity:.5; cursor:not-allowed; }
   background:rgba(232,100,100,.1);
   border:1px solid rgba(232,100,100,.2);
   color:#e86a6a;
+}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .brand{ display:none; }
+  .card{ width:100%; max-width:400px; padding:28px 24px; }
+  .card:hover{ transform:none; }
 }
 </style>
 </head>

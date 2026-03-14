@@ -1,4 +1,4 @@
-const API ='https://securenotes-ma55.onrender.com';
+const API = 'https://securenotes-ma55.onrender.com';
 
 const token = localStorage.getItem('token');
 if (!token) location.href = 'login.html';
@@ -21,7 +21,17 @@ try {
 let notes   = [];
 let current = null;
 
-// toast
+// ── SIDEBAR (mobile) ──
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
+
+// ── TOAST ──
 let tt;
 function toast(msg, type = 'ok') {
   clearTimeout(tt);
@@ -31,7 +41,7 @@ function toast(msg, type = 'ok') {
   tt = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-// utils
+// ── UTILS ──
 function esc(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
@@ -40,7 +50,7 @@ function fmtDate(s) {
   return new Date(s).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
 }
 
-// views
+// ── VIEWS ──
 function showHome() {
   document.getElementById('viewHome').style.display   = 'flex';
   document.getElementById('viewEditor').style.display = 'none';
@@ -48,6 +58,7 @@ function showHome() {
   document.getElementById('navDashboard').classList.add('active');
   document.getElementById('navNew').classList.remove('active');
   document.getElementById('searchInput').style.display = 'block';
+  closeSidebar();
   loadNotes();
 }
 
@@ -57,9 +68,10 @@ function showEditor() {
   document.getElementById('navDashboard').classList.remove('active');
   document.getElementById('navNew').classList.add('active');
   document.getElementById('searchInput').style.display = 'none';
+  closeSidebar();
 }
 
-// render grid
+// ── RENDER GRID ──
 function renderGrid(list) {
   const grid = document.getElementById('notesGrid');
   if (!list.length) {
@@ -87,7 +99,7 @@ function filterNotes(q) {
   ));
 }
 
-// load notes
+// ── LOAD NOTES ──
 async function loadNotes() {
   try {
     const res = await fetch(API + '/notes/', { headers: headers() });
@@ -98,7 +110,7 @@ async function loadNotes() {
   } catch { toast('Failed to load notes', 'err'); }
 }
 
-// open editor
+// ── OPEN EDITOR ──
 function openEditor(id) {
   if (id === null) {
     current = null;
@@ -131,7 +143,7 @@ function setStatus(saved, dateStr) {
     saved ? (dateStr ? 'Saved · ' + dateStr : 'Saved') : 'Unsaved changes';
 }
 
-// save
+// ── SAVE ──
 async function saveNote() {
   const title   = document.getElementById('noteTitle').value.trim();
   const content = document.getElementById('noteContent').value.trim();
@@ -179,7 +191,7 @@ async function saveNote() {
   }
 }
 
-// delete
+// ── DELETE ──
 function openDialog()  { document.getElementById('overlay').classList.add('show'); }
 function closeDialog() { document.getElementById('overlay').classList.remove('show'); }
 
@@ -196,14 +208,17 @@ async function deleteNote() {
   } catch(ex) { toast(ex.message, 'err'); }
 }
 
-// keyboard shortcuts
+// ── KEYBOARD ──
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 's') {
     e.preventDefault();
     if (document.getElementById('viewEditor').style.display !== 'none') saveNote();
   }
-  if (e.key === 'Escape') closeDialog();
+  if (e.key === 'Escape') {
+    closeDialog();
+    closeSidebar();
+  }
 });
 
-// init
+// ── INIT ──
 showHome();

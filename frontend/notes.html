@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secure Notes — Dashboard</title>
 <link rel="stylesheet" href="notes.css">
-<link rel="icon" href="logo.png">   
+<link rel="icon" href="logo.png">
 </head>
 <body>
 
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
 <!-- SIDEBAR -->
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
   <div class="sidebar-logo">Secure <span>Notes</span></div>
 
   <button class="nav-link active" id="navDashboard" onclick="showHome()">
@@ -30,10 +33,13 @@
 <!-- MAIN -->
 <div class="main">
   <div class="topbar">
-    <div class="page-title" id="pageTitle">Dashboard</div>
+    <div class="topbar-left">
+      <button class="btn-menu" onclick="openSidebar()">☰</button>
+      <div class="page-title" id="pageTitle">Dashboard</div>
+    </div>
     <div class="topbar-right">
       <input class="search-input" type="text" id="searchInput"
-             placeholder="Search notes…" oninput="filterNotes(this.value)" />
+             placeholder="Search…" oninput="filterNotes(this.value)" />
       <button class="btn-new" onclick="openEditor(null)">+ New</button>
     </div>
   </div>
