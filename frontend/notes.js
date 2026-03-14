@@ -1,4 +1,4 @@
-const API ='';
+const API ='https://securenotes-ma55.onrender.com';
 
 const token = localStorage.getItem('token');
 if (!token) location.href = 'login.html';
