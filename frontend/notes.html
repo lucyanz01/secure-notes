@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Notes — Dashboard</title>
+<link rel="stylesheet" href="notes.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">Secure <span>Notes</span></div>
+
+  <button class="nav-link active" id="navDashboard" onclick="showHome()">
+    <span class="icon">🏠</span> Dashboard
+  </button>
+  <button class="nav-link" id="navNew" onclick="openEditor(null)">
+    <span class="icon">✏️</span> New Note
+  </button>
+  <button class="nav-link" onclick="logout()">
+    <span class="icon">🚪</span> Sign out
+  </button>
+
+  <div class="sidebar-spacer"></div>
+  <div class="sidebar-user" id="sidebarUser"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="page-title" id="pageTitle">Dashboard</div>
+    <div class="topbar-right">
+      <input class="search-input" type="text" id="searchInput"
+             placeholder="Search notes…" oninput="filterNotes(this.value)" />
+      <button class="btn-new" onclick="openEditor(null)">+ New</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- HOME VIEW -->
+    <div id="viewHome">
+      <div class="notes-grid" id="notesGrid">
+        <div class="empty-state">
+          <div class="empty-icon">📝</div>
+          <div class="empty-text">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDITOR VIEW -->
+    <div id="viewEditor">
+      <div class="editor-back">
+        <button class="btn-back" onclick="showHome()">← Back</button>
+        <div class="editor-actions">
+          <button class="btn-save" id="btnSave" onclick="saveNote()">Save</button>
+          <button class="btn-delete" id="btnDelete" onclick="openDialog()" style="display:none">Delete</button>
+        </div>
+      </div>
+      <div class="editor-box">
+        <input type="text" id="noteTitle" placeholder="Title" />
+        <div class="editor-divider"></div>
+        <textarea id="noteContent" placeholder="Start writing…"></textarea>
+        <div class="editor-status">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">New note</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DELETE DIALOG -->
+<div class="overlay" id="overlay">
+  <div class="dialog">
+    <h3>Delete note</h3>
+    <p>Are you sure? This cannot be undone.</p>
+    <div class="dialog-actions">
+      <button class="btn-cancel" onclick="closeDialog()">Cancel</button>
+      <button class="btn-confirm" onclick="deleteNote()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="notes.js"></script>
+</body>
+</html>
