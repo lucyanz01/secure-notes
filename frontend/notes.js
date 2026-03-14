@@ -1,4 +1,4 @@
-const API = 'http://127.0.0.1:5000';
+const API ='';
 
 const token = localStorage.getItem('token');
 if (!token) location.href = 'login.html';
