@@ -4,206 +4,166 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secure Notes</title>
-
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
 }
-
 body{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:linear-gradient(135deg,#0f1116,#161a22);
-color:white;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#0d1117,#0f1a2e);
+  color:white;
+  position:relative;
 }
-
-/* background glow */
-
 body::before{
-content:"";
-position:absolute;
-width:500px;
-height:500px;
-background:radial-gradient(circle,#ffd84d33,transparent 70%);
-filter:blur(80px);
-top:-100px;
-left:-100px;
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  background:radial-gradient(circle,#3b82f633,transparent 70%);
+  filter:blur(80px);
+  top:-100px;
+  left:-100px;
 }
-
-/* container */
-
 .container{
-display:flex;
-align-items:center;
-gap:60px;
+  display:flex;
+  align-items:center;
+  gap:60px;
 }
-
-/* branding */
-
-.brand{
-max-width:320px;
-}
-
-.brand h1{
-font-size:38px;
-letter-spacing:-1px;
-}
-
-.brand span{
-color:#ffd84d;
-}
-
-.brand p{
-margin-top:14px;
-color:#9aa0b3;
-line-height:1.5;
-}
-
-/* card */
-
+.brand{ max-width:320px; }
+.brand h1{ font-size:38px; letter-spacing:-1px; }
+.brand span{ color:#60a5fa; }
+.brand p{ margin-top:14px; color:#9aa0b3; line-height:1.5; }
 .card{
-width:340px;
-padding:36px;
-border-radius:18px;
-
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(14px);
-
-border:1px solid rgba(255,255,255,0.08);
-
-box-shadow:
-0 20px 60px rgba(0,0,0,.5);
-
-transition:.25s;
+  width:340px;
+  padding:36px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  transition:.25s;
 }
-
-.card:hover{
-transform:translateY(-4px);
-background:rgba(255,255,255,0.07);
-}
-
-/* title */
-
-.card h2{
-margin-bottom:6px;
-font-size:22px;
-}
-
-.sub{
-color:#9aa0b3;
-font-size:14px;
-margin-bottom:24px;
-}
-
-/* inputs */
-
-.field{
-margin-bottom:16px;
-}
-
+.card:hover{ transform:translateY(-4px); background:rgba(255,255,255,0.07); }
+.card h2{ margin-bottom:6px; font-size:22px; }
+.sub{ color:#9aa0b3; font-size:14px; margin-bottom:24px; }
+.field{ margin-bottom:16px; }
 input{
-width:100%;
-padding:11px 12px;
-
-border-radius:10px;
-border:1px solid rgba(255,255,255,.08);
-
-background:rgba(255,255,255,0.04);
-color:white;
-
-outline:none;
-transition:.2s;
+  width:100%;
+  padding:11px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,0.04);
+  color:white;
+  outline:none;
+  transition:.2s;
 }
-
+input::placeholder{ color:#4a5068; }
 input:focus{
-border-color:#ffd84d;
-box-shadow:0 0 0 2px rgba(255,216,77,.2);
+  border-color:#3b82f6;
+  box-shadow:0 0 0 2px rgba(59,130,246,.2);
 }
-
-/* button */
-
 button{
-width:100%;
-margin-top:6px;
-padding:12px;
-
-border:none;
-border-radius:10px;
-
-background:#ffd84d;
-color:#111;
-font-weight:600;
-
-cursor:pointer;
-transition:.2s;
+  width:100%;
+  margin-top:6px;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#3b82f6;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
 }
-
-button:hover{
-background:#ffe066;
+button:hover{ background:#60a5fa; }
+button:disabled{ opacity:.5; cursor:not-allowed; }
+.footer{ margin-top:18px; font-size:13px; text-align:center; color:#9aa0b3; }
+.footer a{ color:#60a5fa; text-decoration:none; }
+.footer a:hover{ text-decoration:underline; }
+.msg{
+  font-size:13px;
+  padding:9px 12px;
+  border-radius:8px;
+  margin-bottom:14px;
+  display:none;
+  line-height:1.5;
 }
-
-/* footer */
-
-.footer{
-margin-top:18px;
-font-size:13px;
-text-align:center;
-color:#9aa0b3;
+.msg.show{ display:block; }
+.msg.error{
+  background:rgba(232,100,100,.1);
+  border:1px solid rgba(232,100,100,.2);
+  color:#e86a6a;
 }
-
-.footer a{
-color:#ffd84d;
-text-decoration:none;
-}
-
 </style>
 </head>
-
-
 <body>
 
 <div class="container">
+  <div class="brand">
+    <h1>Secure <span>Notes</span></h1>
+    <p>Private notes stored safely. Access your encrypted workspace and keep your ideas protected.</p>
+  </div>
 
-<div class="brand">
-<h1>Secure <span>Notes</span></h1>
-<p>
-Private notes stored safely.
-Access your encrypted workspace and keep your ideas protected.
-</p>
+  <div class="card">
+    <h2>Login</h2>
+    <div class="sub">Access your account</div>
+
+    <div class="msg error" id="err"></div>
+
+    <form onsubmit="login(event)">
+      <div class="field">
+        <input type="email" id="email" placeholder="Email" required>
+      </div>
+      <div class="field">
+        <input type="password" id="pw" placeholder="Password" required>
+      </div>
+      <button type="submit" id="btn">Sign In</button>
+    </form>
+
+    <div class="footer">
+      No account? <a href="register.html">Create one</a>
+    </div>
+  </div>
 </div>
 
-<div class="card">
+<script>
+  const API = 'http://127.0.0.1:5000';
 
-<h2>Login</h2>
-<div class="sub">Access your account</div>
+  if (localStorage.getItem('token')) location.href = 'notes.html';
 
-<form>
+  async function login(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn');
+    const err = document.getElementById('err');
+    err.classList.remove('show');
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
 
-<div class="field">
-<input type="email" placeholder="Email" required>
-</div>
-
-<div class="field">
-<input type="password" placeholder="Password" required>
-</div>
-
-<button type="submit">Sign In</button>
-
-</form>
-
-<div class="footer">
-No account? <a href="register.html">Create one</a>
-</div>
-
-</div>
-
-</div>
-
+    try {
+      const res = await fetch(API + '/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email:    document.getElementById('email').value.trim(),
+          password: document.getElementById('pw').value.trim()
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Invalid credentials');
+      localStorage.setItem('token', data.token);
+      location.href = 'notes.html';
+    } catch(ex) {
+      err.textContent = ex.message;
+      err.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+    }
+  }
+</script>
 </body>
 </html>
