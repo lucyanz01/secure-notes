@@ -89,7 +89,7 @@ secure-notes/
 ![Login](./assets/login-test.png)
 
 ### GET /notes/ 
-![Get Notes](./assets/note-test1.png)
+![Get Notes](./assets/note_test1.png)
 
 ### POST /auth/register 
 ![Register 400](./assets/test-register400.png)
