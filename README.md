@@ -55,6 +55,11 @@ A full-stack note-taking application with JWT authentication and encrypted passw
 
 ```
 secure-notes/
+├── assets/
+│   └── screenshots/
+│       ├── login.png
+│       ├── get-notes.png
+│       └── register-400.png
 ├── src/
 │   ├── middleware/
 │   │   └── auth_guard.py
@@ -77,3 +82,16 @@ secure-notes/
 ```
 
 ---
+
+## API testing (Thunder Client)
+
+### POST /auth/login
+![Login](./assets/screenshots/login.png)
+
+### GET /notes/ 
+![Get Notes](./assets/screenshots/get-notes.png)
+
+### POST /auth/register 
+![Register 400](./assets/screenshots/register-400.png)
+
+
