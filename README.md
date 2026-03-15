@@ -86,12 +86,12 @@ secure-notes/
 ## API testing (Thunder Client)
 
 ### POST /auth/login
-![Login](./assets/screenshots/login.png)
+![Login](./assets/login-test.png)
 
 ### GET /notes/ 
-![Get Notes](./assets/screenshots/get-notes.png)
+![Get Notes](./assets/note-test1.png)
 
 ### POST /auth/register 
-![Register 400](./assets/screenshots/register-400.png)
+![Register 400](./assets/test-register400.png)
 
 
